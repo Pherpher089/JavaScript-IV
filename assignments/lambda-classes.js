@@ -33,6 +33,21 @@ class Instructor extends Person{
     grade(student, subject){
         console.log(`${student.name} receives a perfect score on ${subject}`);
     }
+
+    adjustGrade(student){
+        let newGrade = student.grade + (Math.random() * 10) * (Math.random() < 0.5 ? -1 : 1);
+
+        if(newGrade > 100)
+        {
+            newGrade = 100;
+        }
+        else if(newGrade < 0)
+        {
+            newGrade = 0;
+        }
+
+        student.grade = newGrade;
+    }
 }
 
 class Student extends Person{
@@ -41,6 +56,7 @@ class Student extends Person{
         this.previousBackground = attributes.previousBackground;
         this.className = attributes.className;
         this.favSubjects = attributes.favSubjects;
+        this.grade = attributes.grade;
     }
 
     listsSubjects(){
@@ -55,6 +71,15 @@ class Student extends Person{
 
     sprintChallenge(subject){
         console.log(`${this.name} has begun sprint challenge on ${subject}`);
+    }
+
+    graduate(){
+        if(this.grade > 70){
+            console.log(`${this.name} will graduate with a grade of ${this.grade}`);
+        }
+        else{
+            console.log(`${this.name} will not graduate due to a grade of ${this.grade}`);
+        }
     }
 }
 
@@ -91,7 +116,8 @@ const sean = new Student({
     location: 'Sunnyvale',
     previousBackground: 'Machine Learning',
     className:'Data Science',
-    favSubjects: ['SLQ','PHP', 'UI']
+    favSubjects: ['SLQ','PHP', 'UI'],
+    grade: Math.random() * 100
 })
 
 const chris = new Student({
@@ -100,7 +126,8 @@ const chris = new Student({
     location: 'Sunnyvale',
     previousBackground: 'Game Development',
     className:'Full Stack Web Development',
-    favSubjects: ['HTML','CSS', 'JS']
+    favSubjects: ['HTML','CSS', 'JS'],
+    grade: Math.random() * 100
 })
 
 sean.listsSubjects();
@@ -134,3 +161,14 @@ const bLent = new ProjectManager({
 
 bLent.standUp('webpt_lent');
 bLent.debusCode(chris, 'JavaScript');
+
+console.log(chris.grade);
+bLent.adjustGrade(chris);
+console.log(chris.grade);
+
+console.log(sean.grade);
+camPope.adjustGrade(sean);
+console.log(sean.grade);
+
+sean.graduate();
+chris.graduate();
